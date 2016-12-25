@@ -1,0 +1,52 @@
+<html>
+    <head title="Schützen Erfassung">
+        <script src="dist/vendor.min.js"> </script>
+        <script src="dist/app.min.js"> </script>
+        <link rel="stylesheet" href="dist/style/css/vendor.css"/>
+    </head>
+    <body ng-app="erfassung" >
+        
+        <div class="container">
+            <div ng-controller="ErfassungController as vm">
+                
+                <form>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Datum" type="date" ng-model="vm.newPosition.bookingDay.bookingDate">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Grund" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Beschreibung" ng-model="vm.newPosition.description"/>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Dauer" ng-model="vm.newPosition.duration"/>
+                    </div>
+                    <button type="submit" ng-click="vm.addBooking()" class="btn btn-default" value="save" >Save</button>
+                </form>
+                <p>
+                    <table class="table">
+                        <thead></thead>
+                        <tbody>
+                            <tr ng-repeat="position in vm.positions">
+                                <td>
+                                    {{position.bookingDay.bookingDate|filter:date}}
+                                </td>
+                                <td>
+                                    {{position.description}}
+                                </td>
+                                <td>
+                                    {{position.duration}}
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                	<!--{{vm.positions}}-->
+                    {{vm.newPosition}}
+                    {{vm.person}}
+                </p>
+            </div>
+        </div>
+    </body>
+</html>
