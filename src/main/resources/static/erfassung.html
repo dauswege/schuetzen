@@ -9,34 +9,45 @@
         <div class="container">
             <div ng-controller="ErfassungController as vm">
                 
-                <form>
+                <form name="form" class="col-md-4">
                     <div class="form-group">
-                        <input class="form-control" placeholder="Datum" type="date" ng-model="vm.newPosition.bookingDay.bookingDate">
+                        <input class="form-control" placeholder="Datum" type="date" ng-model="vm.newPosition.date">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" placeholder="Grund" />
+                        <input class="form-control" placeholder="Grund" type="text" ng-model="vm.newPosition.activity"/>
                     </div>
                     <div class="form-group">
                         <input class="form-control" placeholder="Beschreibung" ng-model="vm.newPosition.description"/>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" placeholder="Dauer" ng-model="vm.newPosition.duration"/>
+                        <input type="time" class="form-control" name="timeinput" ng-model="vm.newPosition.duration" placeholder="00:00" />
+                        {{form.timeinput.$valid}}
                     </div>
                     <button type="submit" ng-click="vm.addBooking()" class="btn btn-default" value="save" >Save</button>
                 </form>
                 <p>
-                    <table class="table">
+                    <table class="table table-striped table-condensed">
                         <thead></thead>
                         <tbody>
-                            <tr ng-repeat="position in vm.positions">
+                            <tr ng-repeat-start="bookingday in vm.bookingDays">
+                                <th>{{bookingday.bookingDate}}</th>
+                                <th colspan="3"></th>
+                            </tr>
+                            <tr ng-repeat="position in bookingday.positions" ng-repeat-end="">
                                 <td>
-                                    {{position.bookingDay.bookingDate|filter:date}}
+                                    <!--{{position.bookingDay.bookingDate|filter:date}}-->
+                                </td>
+                                <td>
+                                    {{position.activity}}
                                 </td>
                                 <td>
                                     {{position.description}}
                                 </td>
                                 <td>
-                                    {{position.duration}}
+                                    {{vm.formatDuration(position.duration)}}
+                                </td>
+                                <td>
+                                    <span class="glyphicon glyphicon-remove" ng-click="vm.deleteBooking(bookingday, position)"></span>
                                 </td>
                             </tr>
                         </tbody>

@@ -2,23 +2,17 @@ package at.dauswege.entity;
 
 import java.time.Duration;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
+@Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 public class Position {
 
   @Id
@@ -31,8 +25,10 @@ public class Position {
   @Column
   private Duration duration;
 
-  @ManyToOne
-  @NotNull
-  private BookingDay bookingDay;
+  @ManyToOne(cascade = CascadeType.ALL)
+  private Activity activity;
+
+  // @Column(name = "bookingday_id")
+  // private Long bookingdayId;
 
 }

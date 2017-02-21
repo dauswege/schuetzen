@@ -16,54 +16,48 @@ import at.dauswege.entity.Person;
 import at.dauswege.entity.Position;
 import at.dauswege.repositories.rest.BookingDayRepository;
 import at.dauswege.repositories.rest.PersonRepository;
-import at.dauswege.repositories.rest.PositionsRepository;
 
 @Component
 public class ApplicationInitializer implements ApplicationRunner {
 
-  private PersonRepository personRepository;
-
-  private BookingDayRepository bookingDayRepository;
-
-  private PositionsRepository positionsRepository;
+  private final PersonRepository personRepository;
+  private final BookingDayRepository bookingDayRepository;
 
   @Autowired
   private BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Autowired
   public ApplicationInitializer(PersonRepository personRepository,
-      BookingDayRepository bookingDayRepository, PositionsRepository positionsRepository) {
+      BookingDayRepository bookingDayRepository) {
     super();
     this.personRepository = personRepository;
     this.bookingDayRepository = bookingDayRepository;
-    this.positionsRepository = positionsRepository;
   }
 
   @Override
   public void run(ApplicationArguments arg0) throws Exception {
 
-    Person person = new Person(null, "David", "Ausweger", "daus", "daftinga@gmail.com",
-        bCryptPasswordEncoder.encode("pwd"), null);
-    person = this.personRepository.save(person);
-    Person person2 = new Person(null, "Hans", "Wurst", "wurst", "hans@wurst.at",
-        bCryptPasswordEncoder.encode("wurst"), null);
-    person2 = this.personRepository.save(person2);
-    // .save(new Person(null, "David", "Ausweger", "daftinga@gmail.com", null));
+    Person person = new Person();
+    person.setFirstname("David");
+    person.setLastname("Ausweger");
+    person.setUsername("daus");
+    person.setMailAddress("daftinga@gmail.com");
+    person.setPassword(bCryptPasswordEncoder.encode("pwd"));
+    person = personRepository.save(person);
 
-    BookingDay bookingDay = new BookingDay(null, LocalDate.now(), null, person);
-    bookingDay = bookingDayRepository.save(bookingDay);
+    BookingDay bookingDay = new BookingDay();
+    bookingDay.setBookingDate(LocalDate.now());
+    bookingDay.setPerson(person);
 
     Set<BookingDay> bookingDays = new HashSet<>();
     bookingDays.add(bookingDay);
+    Position position = new Position();
+    position.setDescription("testactivity");
+    position.setDuration(Duration.ofHours(2));
 
-    Position position =
-        new Position(null, "testactivity", Duration.ofHours(2).minusMinutes(45), bookingDay);
-    Set<Position> positions = new HashSet<>();
-    positions.add(position);
-
-    bookingDay.setPositions(positions);
-    bookingDay = bookingDayRepository.save(bookingDay);
-    person.setBookingDays(bookingDays);
+    bookingDay.add(position);
+    bookingDay.setPerson(person);
+    bookingDayRepository.save(bookingDay);
 
     this.personRepository.save(person);
 

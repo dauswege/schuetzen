@@ -1,7 +1,5 @@
 package at.dauswege.repositories.rest;
 
-import java.util.Set;
-
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -10,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import at.dauswege.entity.Person;
 
+// @RepositoryRestResource(path = "persons")
 @RepositoryRestResource
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
@@ -23,7 +22,7 @@ public interface PersonRepository extends CrudRepository<Person, Long> {
   public Person findMyPerson();
 
   // @PreAuthorize("hasRole('ROLE_ADMIN')")
-  @Override
-  public Set<Person> findAll();
+  // @Override
+  // public List<Person> findAll();
 
 }

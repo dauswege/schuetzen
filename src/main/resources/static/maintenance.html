@@ -1,0 +1,41 @@
+<html>
+    <head title="Schützen Wartung">
+        <script src="dist/vendor.min.js"> </script>
+        <script src="dist/app.min.js"> </script>
+        <link rel="stylesheet" href="dist/style/css/vendor.css"/>
+    </head>
+    <body ng-app="erfassung" >  
+        <div class="container" ng-controller="MaintenanceController as vm">
+
+            <form name="form" class="col-md-4">
+                <div class="form-group">
+                    <input class="form-control" placeholder="Firstname" 
+                        type="text" ng-model="vm.person.firstname" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" placeholder="Nachname" 
+                        type="text" ng-model="vm.person.lastname" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" placeholder="Benutzername" 
+                        type="text" ng-model="vm.person.username" />
+                </div>
+                <div class="form-group">
+                    <input class="form-control" placeholder="E-Mail" 
+                        type="text" ng-model="vm.person.mailAddress" />
+                </div>
+                <button type="submit" ng-click="vm.savePerson()" class="btn btn-default"> 
+                    Save
+                </button>
+
+            </form>
+
+            <ul>
+                <li ng-repeat="person in vm.persons | orderBy:'lastname'">
+                    {{person.lastname}} {{person.firstname}} / {{person.username}} / {{person.mailAddress}}
+                    <span class="glyphicon glyphicon-edit" ng-click="vm.person=person"></span>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>

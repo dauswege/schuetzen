@@ -16,7 +16,7 @@ const conf = {
     npm: 'node_modules/', 
     //sass: 'src/main/resources/static/style/sass/**/*.scss', 
     style: './target/classes/static/dist/style', 
-    fonts:  'src/main/resources/static/style/fonts/**/*.*', 
+    fonts:  'node_modules/bootstrap/dist/fonts/**', 
     img:  'src/main/resources/static/style/img/*.gif', 
                 dist: './target/classes/static/dist/', 
                 vendorjs: [ 
